@@ -1,0 +1,11 @@
+{
+  "name": "dental-chatbot-buttons",
+  "version": "1.0.0",
+  "description": "Chatbot odontológico com botões",
+  "scripts": {
+    "vercel-build": "echo Build completed"
+  },
+  "dependencies": {
+    "uuid": "^9.0.0"
+  }
+}
