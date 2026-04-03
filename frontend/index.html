@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Clínica Sorriso Perfeito - Chatbot Odontológico</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="header-content">
+                <div class="logo">
+                    <span class="logo-icon">🦷</span>
+                    <div>
+                        <h1>Sorriso Perfeito</h1>
+                        <p>Clínica Odontológica</p>
+                    </div>
+                </div>
+                <div class="status">
+                    <span class="status-dot"></span>
+                    <span>Online</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <div class="message-content">
+                    <div class="message-bubble">
+                        Olá! 👋 Bem-vindo à clínica odontológica Sorriso Perfeito!
+                        <br><br>
+                        Deseja agendar uma consulta?
+                    </div>
+                    <span class="message-time">Agora</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area (só para nome) -->
+        <div class="chat-input-container" id="inputContainer" style="display: none;">
+            <div class="input-wrapper">
+                <input type="text" id="nameInput" placeholder="Digite seu nome..." class="chat-input" autocomplete="off">
+                <button id="sendNameButton" class="send-button">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Buttons Container -->
+        <div class="buttons-container" id="buttonsContainer"></div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
