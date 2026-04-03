@@ -25,7 +25,6 @@ function getProximosDias() {
     data.setDate(hoje.getDate() + i);
     const diaSemana = data.getDay();
     
-    // Pular domingo
     if (diaSemana !== 0) {
       dias.push({
         value: data.toLocaleDateString('pt-BR'),
@@ -38,21 +37,18 @@ function getProximosDias() {
   return dias.slice(0, 6);
 }
 
-// Verificar horários disponíveis baseado no dia
+// Verificar horários disponíveis
 function getHorariosDisponiveis(dataStr) {
   const data = new Date(dataStr.split('/').reverse().join('-'));
   const diaSemana = data.getDay();
   
-  // Sábado (6) só até 13h
   if (diaSemana === 6) {
     return ['09:00', '10:00', '11:00'];
   }
   
-  // Segunda a sexta
   return ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'];
 }
 
-// Armazenar sessões
 const sessions = new Map();
 
 module.exports = async (req, res) => {
@@ -80,11 +76,12 @@ module.exports = async (req, res) => {
     
     let response = { message: '', buttons: [], nextStep: session.step };
     
-    // Processar ações
+    console.log('Step atual:', session.step, 'Action:', action, 'Value:', value);
+    
     switch(session.step) {
       case 'inicio':
-        if (action === 'start') {
-          response.message = "Olá! 👋 Bem-vindo à clínica odontológica Sorriso Perfeito!\n\nPara começar, digite seu nome:";
+        if (action === 'start' || action === 'Agendar consulta') {
+          response.message = "Qual é o seu nome?";
           response.buttons = [];
           response.nextStep = 'nome';
         } else {
@@ -103,8 +100,8 @@ module.exports = async (req, res) => {
             value: p.id
           }));
           response.nextStep = 'procedimento';
-        } else if (action === 'nome_submit') {
-          response.message = "Por favor, digite seu nome completo:";
+        } else if (action === 'nome') {
+          response.message = "Qual é o seu nome?";
           response.buttons = [];
           response.nextStep = 'nome';
         }
@@ -130,7 +127,6 @@ module.exports = async (req, res) => {
         let dataSelecionada = value;
         
         if (value === 'outra_data') {
-          // Mostrar mais dias
           const dias = getProximosDias();
           response.message = "Escolha outra data:";
           response.buttons = dias.map(d => ({
@@ -177,7 +173,6 @@ module.exports = async (req, res) => {
         if (pagamento) {
           session.data.pagamento = pagamento;
           
-          // Calcular valor final
           let valorFinal = session.data.procedimento.preco;
           let desconto = 0;
           if (pagamento.desconto > 0) {
@@ -236,7 +231,6 @@ module.exports = async (req, res) => {
           ];
           response.nextStep = 'finalizado';
           
-          // Salvar agendamento (chamada opcional)
           console.log('Agendamento salvo:', appointment);
         } else {
           response.message = "❌ Agendamento cancelado.\n\nDeseja começar um novo?";
@@ -258,7 +252,6 @@ module.exports = async (req, res) => {
         break;
     }
     
-    // Atualizar sessão
     if (response.nextStep !== session.step) {
       session.step = response.nextStep;
       sessions.set(sessionId, session);
